@@ -29,12 +29,15 @@ void main(int argc, char *argv[]) {
         result.value += first(i);
     }
 
-    int file = open("/home/tobiasz/Pulpit/studia/Programowanie współbierzne/lab3/block.bin", O_APPEND);
+    int file = open("/home/tobiasz/Pulpit/studia/Programowanie współbierzne/lab3/block.bin", O_APPEND | O_WRONLY);
     if(file<0){
-        printf("Nie udało się otworzyć pliku\n");
+        perror("open");
         exit(-1);
     }
+    lockf(file, F_LOCK, sizeof(result));
     write(file,&result,sizeof(result));
+    lockf(file, F_ULOCK, sizeof(result));
+    close(file);
     exit(0);
 }
 
