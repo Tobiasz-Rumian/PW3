@@ -15,7 +15,9 @@ int main(int argc, char *argv[]) {
     int pid, status, size;
     int pos;
     char down[12], up[12], procNumb[12];
-
+    time_t t;
+    int amount;
+    t = time(NULL);
     for (int x = 0; x < argc; x++) {
         printf("%d: %s\n", x, argv[x]);
     }
@@ -42,8 +44,11 @@ int main(int argc, char *argv[]) {
     for (int y = 1; y <= atoi(argv[3]); y++) {
         read(file,&result, sizeof(result));
         printf("%d: %d %d %d\n",y,result.start,result.end,result.value);
-
+        amount+=result.value;
     }
-    close(file);
 
+    close(file);
+    t = time(NULL) - t;
+    printf("Zadanie wykonane w: %li sekund\n",t);
+    printf("W przedziale od %d do %d jest %d liczb pierwszych\n",atoi(argv[1]),atoi(argv[2]),amount);
 }
